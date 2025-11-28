@@ -12,7 +12,7 @@ KLIPPER_PLUGIN = True
 
 import logging
 
-class TrsyncTimeoutCommander:
+class TrsyncTimeoutCommands:
     def __init__(self, config):
         self.config = config
         self.printer = config.get_printer()
@@ -38,4 +38,4 @@ class TrsyncTimeoutCommander:
         gcmd.respond_info("Reset TRSYNC_TIMEOUT = %.3f" % (0.025))
 
 def load_config(config):
-    return TrsyncTimeoutCommander(config)
+    return TrsyncTimeoutCommands(config)
