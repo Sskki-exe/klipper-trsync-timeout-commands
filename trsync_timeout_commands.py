@@ -13,10 +13,6 @@ class TrsyncTimeoutCommandsHelper:
         self.printer = config.get_printer()
         self.printer.register_event_handler("klippy:connect", self.handle_connect)
 
-        self.start_pos = config.getlist("start_pos")
-        self.end_pos = config.getlist("end_pos")
-        self.move_speed = config.getint("move_speed")
-
     def handle_connect(self):
        k = self.printer.lookup_object('toolhead').get_kinematics()
 
