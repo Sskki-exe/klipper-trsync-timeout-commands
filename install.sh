@@ -85,7 +85,7 @@ link_extension()
 add_updater()
 {
     echo -n "Adding update manager to moonraker.conf... "
-    update_section=$(grep -c '\[update_manager[a-z ]* ${PLUGIN}\]' $MOONRAKER_CONFIG || true)
+    update_section=$(grep -c '\[update_manager[a-z ]* '${PLUGIN}'\]' $MOONRAKER_CONFIG || true)
     if [ "$update_section" -eq 0 ]; then
         echo -e "\n[update_manager ${PLUGIN}]" >> "$MOONRAKER_CONFIG"
         echo "type: git_repo" >> "$MOONRAKER_CONFIG"
