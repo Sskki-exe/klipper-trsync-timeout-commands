@@ -8,32 +8,40 @@
 # TRSYNC_TIMEOUT_SET
 # TRSYNC_TIMEOUT_RESET
 
+class TrsyncTimeoutCommandsHelper:
+    def __init__(self, config):
+        self.printer = config.get_printer()
+        self.printer.register_event_handler("klippy:connect", self.handle_connect)
+
+        self.start_pos = config.getlist("start_pos")
+        self.end_pos = config.getlist("end_pos")
+        self.move_speed = config.getint("move_speed")
+
+    def handle_connect(self):
+       k = self.printer.lookup_object('toolhead').get_kinematics()
+
+    def test_macro(self):
+        toolhead = self.printer.lookup_object("toolhead")
+        gcode = self.printer.lookup_object('gcode')
+        curpos = toolhead.get_position()
+
+        # this line outputs text in the terminal
+        gcode.respond_info("Curpos is " + str(curpos))
+
+
 class TrsyncTimeoutCommands:
     def __init__(self, config):
         self.printer = config.get_printer()
+        self.TrsyncTimeoutCommands_helper = TrsyncTimeoutCommandsHelper(config)
         gcode = self.printer.lookup_object('gcode')
-        
-        gcode.register_command("TRSYNC_TIMEOUT_QUERY", self.cmd_TRSYNC_TIMEOUT_QUERY,
-                                    desc=self.cmd_TRSYNC_TIMEOUT_QUERY_help)
-        gcode.register_command("TRSYNC_TIMEOUT_SET", self.cmd_TRSYNC_TIMEOUT_SET,
-                                    desc=self.cmd_TRSYNC_TIMEOUT_SET_help)
-        gcode.register_command("TRSYNC_TIMEOUT_RESET", self.cmd_TRSYNC_TIMEOUT_RESET,
-                                    desc=self.cmd_TRSYNC_TIMEOUT_RESET_help)
-        
-    cmd_TRSYNC_TIMEOUT_QUERY_help = "Returns current TRSYNC_TIMEOUT value"
-    def cmd_TRSYNC_TIMEOUT_QUERY(self, gcmd):
-        gcode = self.printer.lookup_object('gcode')
-        gcode.respond_info("TRSYNC_TIMEOUT = %.3f" % (0.025))
-    
-    cmd_TRSYNC_TIMEOUT_SET_help = "Sets new TRSYNC_TIMEOUT value"
-    def cmd_TRSYNC_TIMEOUT_SET(self, gcmd):
-        gcode = self.printer.lookup_object('gcode')
-        gcode.respond_info("Set TRSYNC_TIMEOUT = %.3f" % (0.025))
-    
-    cmd_TRSYNC_TIMEOUT_RESET_help = "Resets TRSYNC_TIMEOUT to default value (0.025)"
-    def cmd_TRSYNC_TIMEOUT_RESET(self, gcmd):
-        gcode = self.printer.lookup_object('gcode')
-        gcode.respond_info("Reset TRSYNC_TIMEOUT = %.3f" % (0.025))
 
+        # make your gcode recognisable
+        gcode.register_command("TEST_MACRO", self.cmd_TEST_MACRO, self.cmd_TEST_MACRO_help)
+
+
+    cmd_TEST_MACRO_help = "Help hint at what this gcode macro does"
+    def cmd_TEST_MACRO(self, gcmd):
+        self.TrsyncTimeoutCommands_helper.test_macro()
+    
 def load_config(config):
     return TrsyncTimeoutCommands(config)
