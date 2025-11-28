@@ -8,21 +8,16 @@
 # TRSYNC_TIMEOUT_SET
 # TRSYNC_TIMEOUT_RESET
 
-KLIPPER_PLUGIN = True
-
-import logging
-
 class TrsyncTimeoutCommands:
     def __init__(self, config):
-        self.config = config
         self.printer = config.get_printer()
-        self.gcode = self.printer.lookup_object('gcode')
+        gcode = self.printer.lookup_object('gcode')
         
-        self.gcode.register_command('TRSYNC_TIMEOUT_QUERY', self.cmd_TRSYNC_TIMEOUT_QUERY,
+        gcode.register_command("TRSYNC_TIMEOUT_QUERY", self.cmd_TRSYNC_TIMEOUT_QUERY,
                                     desc=self.cmd_TRSYNC_TIMEOUT_QUERY_help)
-        self.gcode.register_command('TRSYNC_TIMEOUT_SET', self.cmd_TRSYNC_TIMEOUT_SET,
+        gcode.register_command("TRSYNC_TIMEOUT_SET", self.cmd_TRSYNC_TIMEOUT_SET,
                                     desc=self.cmd_TRSYNC_TIMEOUT_SET_help)
-        self.gcode.register_command('TRSYNC_TIMEOUT_RESET', self.cmd_TRSYNC_TIMEOUT_RESET,
+        gcode.register_command("TRSYNC_TIMEOUT_RESET", self.cmd_TRSYNC_TIMEOUT_RESET,
                                     desc=self.cmd_TRSYNC_TIMEOUT_RESET_help)
         
     cmd_TRSYNC_TIMEOUT_QUERY_help = ("Returns current TRSYNC_TIMEOUT value")
