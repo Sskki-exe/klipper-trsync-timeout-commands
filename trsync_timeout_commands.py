@@ -1,6 +1,6 @@
-# Klipper plugin for a self-calibrating Z offset.
+# Klipper plugin for changing TRSYNC_TIMEOUT values.
 #
-# Copyright (C) 2021-2025  Titus Meyer <info@protoloft.org>
+# Copyright (C) 2025  Sskki-exe <queries@sskki.fyi>
 #
 # This file may be distributed under the terms of the GNU GPLv3 license.
 
@@ -8,16 +8,15 @@
 # TRSYNC_TIMEOUT_SET
 # TRSYNC_TIMEOUT_RESET
 
+KLIPPER_PLUGIN = True
+
 import logging
-from mcu import MCU_endstop
 
 class TrsyncTimeoutCommander:
     def __init__(self, config):
         self.config = config
         self.printer = config.get_printer()
         self.gcode = self.printer.lookup_object('gcode')
-
-        gcode_macro = self.printer.load_object(config, 'gcode_macro')
         
         self.gcode.register_command('TRSYNC_TIMEOUT_QUERY', self.cmd_TRSYNC_TIMEOUT_QUERY,
                                     desc=self.cmd_TRSYNC_TIMEOUT_QUERY_help)

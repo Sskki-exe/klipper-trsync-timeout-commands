@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#TODO make this file executable
+
 PLUGIN="trsync_timeout_commands"
 GITREPO="https://github.com/Sskki-exe/klipper-trsync-timeout-commands.git"
 SRCDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )"/ && pwd )"
